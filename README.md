@@ -34,7 +34,7 @@ The following **additional** features are implemented:
 - [x] SizeToFit all the text for UI
 - [x] Refine and add more data to movie information detail page (release data and rating]
     - Rating data was based on the vote_average data from the API
-    - 
+
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
 1. Smooth Collection View integration that would have the same functionality as the table view
