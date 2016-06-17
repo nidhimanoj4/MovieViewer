@@ -13,10 +13,13 @@ import MBProgressHUD
 
 
 
-class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var logoImageView: UIImageView!
+    @IBOutlet weak var searchBar: UISearchBar!
     var movies: [NSDictionary]?
+    var filteredMovies: [NSDictionary]?
     
     // Makes a network request to get updated data
     // Updates the tableView with the new data
@@ -53,6 +56,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                     //save it as a NSDictionary array
                     //explicitly say that we are talking about my self movies
                     self.movies = responseDictionary["results"] as! [NSDictionary]
+                    self.filteredMovies = self.movies
                     
                     
                     //tell it to reload the data after the new data has been pulled after the network request
@@ -75,20 +79,27 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     //this is the network request method
     override func viewDidLoad() {
         super.viewDidLoad()
+        let logoURLString = "http://cdn.iconmonstr.com/wp-content/assets/preview/2012/240/iconmonstr-video-8.png"
+        //let logoURLString = "file:///Users/nidhimanoj/Downloads/iconmonstr-video-8.svg"
+        let logoURL = NSURL(string: logoURLString)
+        logoImageView.setImageWithURL(logoURL!) //setImage is from the cocoapod AFNetworking
+        
         
         // Initialize a UIRefreshControl
         let refreshControl = UIRefreshControl()
         //something (refreshControlAction( :))will happen when you pull-to-refresh
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), forControlEvents: UIControlEvents.ValueChanged)
         tableView.insertSubview(refreshControl, atIndex: 0)
-
-        tableView.dataSource = self //initialize the data source and delegate to be myselftbjuhllgddcnducilnbidlhhlvnrthgn
+        
+        //initialize the data source and delegate to be myself
+        tableView.dataSource = self
         tableView.delegate = self
-        
+        searchBar.delegate = self as? UISearchBarDelegate
+        filteredMovies = movies
+
         //Makes network request, updates tableview with new data (the movies array of NSDictionary), hides the Refresh Control
-        refreshControlAction(refreshControl)
         
-        // Do any additional setup after loading the view.
+        refreshControlAction(refreshControl)
     }
     
     override func didReceiveMemoryWarning() {
@@ -99,10 +110,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     //this dictates the number of rows
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //same number of rows as the number of movies in the movies array
-        //if the array is NILL or network error, 
-        if let movies = movies {
+        //if the array is NILL or network error,
+        if let filteredMovies = filteredMovies {
             //movies is not NULL
-            return movies.count
+            return filteredMovies.count
         } else {
             //movies is NILL
             return 0
@@ -113,39 +124,80 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // we called the TableViewCell with reuse identifier to be MovieCell
         let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell
-        let row = indexPath.row
         
-        // this is a particular NSDictionary, the ! tells the computer that I know this value is not NILL
-        let movie = movies![indexPath.row]
-        //index into the NS Dictionary movie to get the title
+        // this is a particular NSDictionary, the ! tells the computer that I know this value is not NILL, index into the NS Dictionary movie to get the title
+        let movie = filteredMovies![indexPath.row]
         
         //this is how to access a key within the dictionary, cast as a String
-        let title = movie["title"] as! String
-        let overview = movie["overview"] as! String
-        let baseURL = "http://image.tmdb.org/t/p/w500"
-        let posterpath = movie["poster_path"] as! String
-        let imageURL = NSURL(string: baseURL + posterpath) //this is a string
-        
-        
-        //cast above cell to MovieCell so you can say set title to something and set overview to something
+        let title = movie["title"] as? String
         cell.titleLabel.text = title
+        let overview = movie["overview"] as? String
         cell.overviewLabel.text = overview
-        // set Image using cocoa pods
-        cell.posterView.setImageWithURL(imageURL!) //this method from setImage is from the cocoapod AFNetworking
+        let rating = movie["release_date"] as? String
+        cell.ratingLabel.text = rating
         
-        print(row) //print the current row number on screen
-        // Note: Notice that the rows printed are the ones that are visible on the screen. Imagine if thousands of cells. USe reausable cells.. only deal with the cells on the screen. When one row/cell leaves the screen, its data is replaced with that of another
+        let baseURL = "http://image.tmdb.org/t/p/w500"
+        if let posterpath = movie["poster_path"] as? String { //poster_path is not NILL
+            let imageURL = NSURL(string: baseURL + posterpath) //this is a string
+            // set Image using cocoa pods
+            cell.posterView.setImageWithURL(imageURL!) //this method from setImage is from the cocoapod AFNetworking
+        }
+        
+        
+            // Note: Notice that the rows printed are the ones that are visible on the screen. Imagine if thousands of cells. USe reausable cells.. only deal with the cells on the screen. When one row/cell leaves the screen, its data is replaced with that of another
         return cell
     }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    
+    //SEARCH BAR FILTERING
+    // This method updates filteredData based on the text in the Search Box
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        // When there is no text, filteredData is the same as the original data
+        if searchText.isEmpty {
+            filteredMovies = movies
+        } else {
+            // The user has entered text into the search box
+            // Use the filter method to iterate over all items in the data array
+            // For each item, return true if the item should be included and false if the
+            // item should NOT be included
+            filteredMovies = movies!.filter({(movieItem: NSDictionary) -> Bool in
+                let title = movieItem["title"] as! String
+                // If title matches the searchText, return true to include it
+                if title.rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil {
+                    return true
+                } else {
+                    return false
+                }
+            })
+        }
+        tableView.reloadData()
+    }
+
+    
+    
+    
+    
+
+    
+    
+    //PUSH TO A DETAIL PAGE
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        
+        //The sender is the MovieCell
+        let cell = sender as! UITableViewCell
+        //Use the indexPathForCell to get the index for a cell, use that index to access the movie in movies array from data
+        let indexPath = tableView.indexPathForCell(cell)
+        let movie = filteredMovies![indexPath!.row] // get the right movie
+    
+        //Segue is where we are going to which is an instance of DetailViewController, set its movie variable to be this movie of the cell. The detailedViewController will use this movie to get data and image
+        let detailedViewController = segue.destinationViewController as! DetailViewController
+        detailedViewController.movie = movie
+        
+    }
+    
+    
     
 }
