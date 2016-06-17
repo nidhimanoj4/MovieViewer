@@ -32,10 +32,16 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 ## Video Walkthrough
 
-Here's a walkthrough of implemented user stories:
+Find Full Video here: http://i.imgur.com/Cv9AGoy.mp4
 
+Here's a walkthrough of implemented user stories:
 <img src='http://i.imgur.com/BBH6dnH.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-<img src='http://i.imgur.com/dUmvoIk.gif' title='Video Walkthrough2' width='' alt='Video Walkthrough2' />
+
+<img src='http://i.imgur.com/nOGcc4R.gif' title='Video Walkthrough2' width='' alt='Video Walkthrough2' />
+
+<img src='http://i.imgur.com/axftiAM.gif' title='Video Walkthrough2' width='' alt='Video Walkthrough2' />
+
+<img src='http://i.imgur.com/PP2vXsa.gif' title='Video Walkthrough2' width='' alt='Video Walkthrough2' />
 
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
