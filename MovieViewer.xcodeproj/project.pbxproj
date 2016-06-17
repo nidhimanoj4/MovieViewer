@@ -14,6 +14,7 @@
 		5CBD0EB41D120298008CFBE6 /* MoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBD0EB31D120298008CFBE6 /* MoviesViewController.swift */; };
 		5CBD0EB71D12128B008CFBE6 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBD0EB61D12128B008CFBE6 /* MovieCell.swift */; };
 		5CFB64BF1D13525500D535E9 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFB64BE1D13525500D535E9 /* DetailViewController.swift */; };
+		5CFB64C11D1455AF00D535E9 /* FandangoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFB64C01D1455AF00D535E9 /* FandangoViewController.swift */; };
 		C1B6542340A5B8FECBAA0ED8 /* Pods_MovieViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A264C721B6534AC59E8BC959 /* Pods_MovieViewer.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 		5CBD0EB31D120298008CFBE6 /* MoviesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoviesViewController.swift; sourceTree = "<group>"; };
 		5CBD0EB61D12128B008CFBE6 /* MovieCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		5CFB64BE1D13525500D535E9 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		5CFB64C01D1455AF00D535E9 /* FandangoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FandangoViewController.swift; sourceTree = "<group>"; };
 		6ABEAE60617A4A155A53B093 /* Pods-MovieViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieViewer.release.xcconfig"; path = "Pods/Target Support Files/Pods-MovieViewer/Pods-MovieViewer.release.xcconfig"; sourceTree = "<group>"; };
 		A264C721B6534AC59E8BC959 /* Pods_MovieViewer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MovieViewer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B73F7AC76D505EAADE03CE90 /* Pods-MovieViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MovieViewer/Pods-MovieViewer.debug.xcconfig"; sourceTree = "<group>"; };
@@ -47,6 +49,7 @@
 		5CBD0E951D120251008CFBE6 = {
 			isa = PBXGroup;
 			children = (
+				5CFB64C01D1455AF00D535E9 /* FandangoViewController.swift */,
 				5CBD0EA01D120251008CFBE6 /* MovieViewer */,
 				5CBD0E9F1D120251008CFBE6 /* Products */,
 				F67FD890882D849657108F8C /* Pods */,
@@ -233,6 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5CBD0EA21D120251008CFBE6 /* AppDelegate.swift in Sources */,
+				5CFB64C11D1455AF00D535E9 /* FandangoViewController.swift in Sources */,
 				5CBD0EB41D120298008CFBE6 /* MoviesViewController.swift in Sources */,
 				5CBD0EB71D12128B008CFBE6 /* MovieCell.swift in Sources */,
 				5CFB64BF1D13525500D535E9 /* DetailViewController.swift in Sources */,

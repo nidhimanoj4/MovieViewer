@@ -11,8 +11,6 @@ import AFNetworking
 import MBProgressHUD
 
 
-
-
 class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
     @IBOutlet weak var tableView: UITableView!
@@ -96,7 +94,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.delegate = self
         searchBar.delegate = self as? UISearchBarDelegate
         filteredMovies = movies
-
+        
         //Makes network request, updates tableview with new data (the movies array of NSDictionary), hides the Refresh Control
         
         refreshControlAction(refreshControl)
@@ -133,18 +131,49 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         cell.titleLabel.text = title
         let overview = movie["overview"] as? String
         cell.overviewLabel.text = overview
+        cell.overviewLabel.sizeToFit()
         let rating = movie["release_date"] as? String
         cell.ratingLabel.text = rating
         
         let baseURL = "http://image.tmdb.org/t/p/w500"
         if let posterpath = movie["poster_path"] as? String { //poster_path is not NILL
-            let imageURL = NSURL(string: baseURL + posterpath) //this is a string
-            // set Image using cocoa pods
+            let imageURL = NSURL(string: baseURL + posterpath)
+            /* Immediately show image
             cell.posterView.setImageWithURL(imageURL!) //this method from setImage is from the cocoapod AFNetworking
+            */
+            
+            // Fade the image in
+            let imageRequest = NSURLRequest(URL: imageURL!)
+            cell.posterView.setImageWithURLRequest(imageRequest, placeholderImage: nil, success: { (imageRequest, imageResponse, image) -> Void in
+                
+                // imageResponse will be nil if the image is cached
+                if imageResponse != nil {
+                    print("Image was NOT cached, fade in image")
+                    cell.posterView.alpha = 0.0
+                    cell.posterView.image = image
+                    UIView.animateWithDuration(0.3, animations: { () -> Void in
+                        cell.posterView.alpha = 1.0
+                    })
+                } else {
+                    print("Image was cached so just update the image")
+                    cell.posterView.image = image
+                }
+                },
+                failure: { (imageRequest, imageResponse, error) -> Void in
+                // do something for the failure condition
+            })
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
         }
-        
-        
-            // Note: Notice that the rows printed are the ones that are visible on the screen. Imagine if thousands of cells. USe reausable cells.. only deal with the cells on the screen. When one row/cell leaves the screen, its data is replaced with that of another
+        // Note: Notice that the rows printed are the ones that are visible on the screen. Imagine if thousands of cells. USe reausable cells.. only deal with the cells on the screen. When one row/cell leaves the screen, its data is replaced with that of another
         return cell
     }
     
@@ -172,12 +201,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         }
         tableView.reloadData()
     }
-
     
     
-    
-    
-
     
     
     //PUSH TO A DETAIL PAGE
@@ -191,7 +216,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         //Use the indexPathForCell to get the index for a cell, use that index to access the movie in movies array from data
         let indexPath = tableView.indexPathForCell(cell)
         let movie = filteredMovies![indexPath!.row] // get the right movie
-    
+        
         //Segue is where we are going to which is an instance of DetailViewController, set its movie variable to be this movie of the cell. The detailedViewController will use this movie to get data and image
         let detailedViewController = segue.destinationViewController as! DetailViewController
         detailedViewController.movie = movie
