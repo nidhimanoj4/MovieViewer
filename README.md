@@ -37,8 +37,8 @@ The following **additional** features are implemented:
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1. Smooth Collection View integration that would have the same functionality as the table view
-2. Look into page animation views - such as a slide transition to the new page
+1. How to smoothly integrate a Collection View that would have the same functionality as the table view
+2. Discuss page animation views, such as a slide transition to a detailed page view
 
 ## Video Walkthrough
 
@@ -58,7 +58,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-The search bar functionality was different and took a while to figure out. Connecting the API was much easier after having implemeneted the Tumblr client app. The most rewarding features were the detailed view page with scrolling and the Fandango Web View Connection. 
+The search bar functionality was new and took a while to figure out. Connecting the API was much easier after having implemented the Tumblr client app. The most rewarding improvements of the app were the detailed view page with scrolling and the Fandango Web View Connection. 
 
 ## Credits
 
